@@ -16,7 +16,8 @@ import pw.react.backend.model.CompanyLogo;
 import pw.react.backend.service.*;
 import pw.react.backend.web.UploadFileResponse;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 import static java.util.stream.Collectors.joining;
 
@@ -78,7 +79,7 @@ public class CompanyController {
         if (securityService.isAuthorized(headers)) {
             return ResponseEntity.ok(repository.findAll());
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.emptyList());
+        throw new UnauthorizedException("Request is unauthorized");
     }
 
     @PutMapping(path = "/{companyId}")
@@ -94,7 +95,7 @@ public class CompanyController {
             }
             return ResponseEntity.ok(result);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Company.EMPTY);
+        throw new UnauthorizedException("Request is unauthorized");
     }
 
     @DeleteMapping(path = "/{companyId}")
@@ -107,11 +108,13 @@ public class CompanyController {
             }
             return ResponseEntity.ok(String.format("Company with id %s deleted.", companyId));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to resources.");
+        throw new UnauthorizedException("Unauthorized access to resources.");
     }
 
     @PostMapping("/{companyId}/logo")
-    public ResponseEntity<UploadFileResponse> uploadLogo(@RequestHeader HttpHeaders headers, @PathVariable Long companyId, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<UploadFileResponse> uploadLogo(@RequestHeader HttpHeaders headers,
+                                                         @PathVariable Long companyId,
+                                                         @RequestParam("file") MultipartFile file) {
         logHeaders(headers);
         if (securityService.isAuthorized(headers)) {
             CompanyLogo companyLogo = companyLogoService.storeLogo(companyId, file);
@@ -120,9 +123,11 @@ public class CompanyController {
                     .path("/companies/" + companyId + "/logo/")
                     .path(companyLogo.getFileName())
                     .toUriString();
-            return ResponseEntity.ok(new UploadFileResponse(companyLogo.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()));
+            return ResponseEntity.ok(new UploadFileResponse(
+                    companyLogo.getFileName(), fileDownloadUri, file.getContentType(), file.getSize()
+            ));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        throw new UnauthorizedException("Unauthorized access to resources.");
     }
 
     @GetMapping(value = "/{companyId}/logo", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -147,7 +152,7 @@ public class CompanyController {
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + companyLogo.getFileName() + "\"")
                     .body(new ByteArrayResource(companyLogo.getData()));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        throw new UnauthorizedException("Unauthorized access to resources.");
     }
 
     @DeleteMapping(value = "/{companyId}/logo")
@@ -157,7 +162,7 @@ public class CompanyController {
             companyLogoService.deleteCompanyLogo(Long.parseLong(companyId));
             return ResponseEntity.ok().body(String.format("Logo for the company with id %s removed.", companyId));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized access to resources.");
+        throw new UnauthorizedException("Unauthorized access to resources.");
     }
 
 }
