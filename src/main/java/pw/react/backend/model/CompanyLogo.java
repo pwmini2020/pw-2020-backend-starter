@@ -6,7 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-/** Created by Pawel Gawedzki on 06-Oct-2019. */
 @Entity
 @Table(name = "company_logo")
 @Data

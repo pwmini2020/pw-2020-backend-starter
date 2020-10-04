@@ -28,19 +28,19 @@ public class CompanyController {
     private final Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
     private final CompanyRepository repository;
-    private final SecurityService securityService;
+    private final SecurityProvider securityService;
     private final CompanyService companyService;
-    private CompanyLogoService companyLogoService;
+    private LogoService companyLogoService;
 
     @Autowired
-    public CompanyController(CompanyRepository repository, SecurityService securityService, CompanyService companyService) {
+    public CompanyController(CompanyRepository repository, SecurityProvider securityService, CompanyService companyService) {
         this.repository = repository;
         this.securityService = securityService;
         this.companyService = companyService;
     }
 
     @Autowired
-    public void setCompanyLogoService(CompanyLogoService companyLogoService) {
+    public void setCompanyLogoService(LogoService companyLogoService) {
         this.companyLogoService = companyLogoService;
     }
 

@@ -4,21 +4,25 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import pw.react.backend.service.HttpService;
+import pw.react.backend.service.HttpClient;
+import pw.react.backend.web.Quote;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles(profiles = {"dev"})
 class SampleBackendApplicationTests {
 
 	@Autowired
-	HttpService httpService;
+	private HttpClient httpService;
 
 	@Test
 	void contextLoads() {
 	}
 
 	@Test
-	void name() {
-		httpService.consume("");
+	void whenConsume_thenReturnQuote() {
+		final Quote quote = httpService.consume("");
+		assertThat(quote).isNotNull();
 	}
 }

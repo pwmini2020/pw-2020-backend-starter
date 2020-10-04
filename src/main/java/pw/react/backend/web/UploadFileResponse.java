@@ -2,7 +2,6 @@ package pw.react.backend.web;
 
 import lombok.*;
 
-/** Created by Pawel Gawedzki on 06-Oct-2019. */
 @Getter
 @Setter
 @AllArgsConstructor

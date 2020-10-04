@@ -7,17 +7,16 @@ import org.springframework.stereotype.Service;
 import pw.react.backend.dao.CompanyRepository;
 import pw.react.backend.model.Company;
 
-/** Created by Pawel Gawedzki on 05-Oct-2019. */
 @Service
-class CompanyServiceImpl implements CompanyService {
-    private final Logger logger = LoggerFactory.getLogger(CompanyServiceImpl.class);
+class CompanyMainService implements CompanyService {
+    private final Logger logger = LoggerFactory.getLogger(CompanyMainService.class);
 
     private CompanyRepository repository;
 
-    CompanyServiceImpl() { /*Needed only for initializing spy in unit tests*/}
+    CompanyMainService() { /*Needed only for initializing spy in unit tests*/}
 
     @Autowired
-    CompanyServiceImpl(CompanyRepository repository) {
+    CompanyMainService(CompanyRepository repository) {
         this.repository = repository;
     }
 
