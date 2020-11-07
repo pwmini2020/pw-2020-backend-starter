@@ -10,7 +10,7 @@ import pw.react.backend.web.Quote;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ActiveProfiles(profiles = {"dev"})
+@ActiveProfiles(profiles = {"mysql-dev"})
 class SampleBackendApplicationTests {
 
 	@Autowired
