@@ -1,5 +1,7 @@
 package pw.react.backend.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -8,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 import static java.util.stream.Collectors.toSet;
@@ -19,6 +22,15 @@ public class MainConfig {
     private String corsUrls;
     @Value(value = "${cors.mappings}")
     private String corsMappings;
+
+    @PostConstruct
+    private void init() {
+        Logger logger = LoggerFactory.getLogger(MainConfig.class);
+        logger.info("************** Environment variables **************");
+        for (Map.Entry<String, String> entry : System.getenv().entrySet()) {
+            logger.info("[{}] : [{}]", entry.getKey(), entry.getValue());
+        }
+    }
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
