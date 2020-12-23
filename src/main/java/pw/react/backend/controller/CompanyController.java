@@ -99,7 +99,7 @@ public class CompanyController {
     }
 
     @DeleteMapping(path = "/{companyId}")
-    public ResponseEntity<String> updateCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
+    public ResponseEntity<String> deleteCompany(@RequestHeader HttpHeaders headers, @PathVariable Long companyId) {
         logHeaders(headers);
         if (securityService.isAuthorized(headers)) {
             boolean deleted = companyService.deleteCompany(companyId);

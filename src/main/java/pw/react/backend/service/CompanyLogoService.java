@@ -12,6 +12,7 @@ import pw.react.backend.dao.CompanyLogoRepository;
 import pw.react.backend.model.CompanyLogo;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 class CompanyLogoService implements LogoService {
@@ -27,8 +28,11 @@ class CompanyLogoService implements LogoService {
 
     @Override
     public CompanyLogo storeLogo(long companyId, MultipartFile file) {
+        if (file == null) {
+            throw new InvalidFileException("Attachment [MultipartFile] is null.");
+        }
         // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
         try {
             // Check if the file's name contains invalid characters

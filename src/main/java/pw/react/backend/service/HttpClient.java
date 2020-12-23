@@ -1,7 +1,10 @@
 package pw.react.backend.service;
 
-import pw.react.backend.web.Quote;
+import pw.react.backend.model.Company;
+
+import java.util.List;
 
 public interface HttpClient {
-    Quote consume(String url);
+    List<Company> getCompanies();
+    String createCompanies(List<Company> companies);
 }

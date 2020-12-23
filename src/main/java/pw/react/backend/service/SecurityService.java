@@ -21,4 +21,14 @@ class SecurityService implements SecurityProvider {
     public boolean isAuthorized(HttpHeaders headers) {
         return isAuthenticated(headers);
     }
+
+    @Override
+    public String getSecurityHeader() {
+        return SECURITY_HEADER;
+    }
+
+    @Override
+    public String getSecurityHeaderValue() {
+        return SECURITY_HEADER_VALUE;
+    }
 }

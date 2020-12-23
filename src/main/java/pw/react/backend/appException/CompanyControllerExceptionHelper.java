@@ -14,7 +14,7 @@ public class CompanyControllerExceptionHelper {
     @ExceptionHandler(value = { InvalidFileException.class })
     public ResponseEntity<ExceptionDetails> handleInvalidFileException(InvalidFileException ex) {
         logger.error("Invalid Input Exception: {}", ex.getMessage());
-        return new ResponseEntity<>(new ExceptionDetails(HttpStatus.NOT_FOUND, ex.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ExceptionDetails(HttpStatus.BAD_REQUEST, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = { ResourceNotFoundException.class })
